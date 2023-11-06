@@ -35,7 +35,6 @@ public class User {
 
     @Column(nullable = false, length = 10)
     @NotBlank(message = "Role is mandatory")
-    @Pattern(regexp = "^(student|teach)$" ,message = "Roles are invalid")
     private String role;
 }
 

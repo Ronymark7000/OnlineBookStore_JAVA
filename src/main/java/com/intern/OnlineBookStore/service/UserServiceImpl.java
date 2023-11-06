@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepo.findById(userId);
 
         User user = optionalUser.get();
-        UserDto userDtos = new UserDto(user.getUsername(), user.getEmail(), user.getRole());
+        UserDto userDtos = new UserDto(user.getUserId(),user.getUsername(), user.getEmail(), user.getPassword(),user.getRole());
 
         return userDtos;
     }

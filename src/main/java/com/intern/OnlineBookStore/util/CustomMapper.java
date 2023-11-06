@@ -14,7 +14,7 @@ public class CustomMapper {
 
     public static UserDto mapUserDto(User user){
 
-        return new UserDto(user.getUsername(), user.getEmail(), user.getRole());
+        return new UserDto(user.getUserId(),user.getUsername(), user.getEmail(),user.getPassword(), user.getRole());
     }
 
     public static List<UserDto> mapUserDtos(List<User> users) {

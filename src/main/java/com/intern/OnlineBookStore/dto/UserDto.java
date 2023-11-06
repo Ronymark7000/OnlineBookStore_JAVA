@@ -1,24 +1,19 @@
 package com.intern.OnlineBookStore.dto;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
-
+    private Integer userId;
     private String username;
     private String email;
+    private String password;
     private String role;
 
-    //Used instead of @NoArgsConstructor
-    public UserDto() {
-    }
-
-    //Used instead of @AllArgsConstructor
-
-    public UserDto(String username, String email, String role) {
-        this.username = username;
-        this.email = email;
-        this.role = role;
-    }
 }
 

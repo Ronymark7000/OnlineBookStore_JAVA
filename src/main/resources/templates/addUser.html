@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Web Page</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card">
+                <h2 class="card-title text-center">Signup Page</h2>
+                <div class="card-body py-md-4">
+                    <form action="#" th:action="@{/save}" th:object="${user}" method=POST>
+                        <div class="form-group">
+                            <input type="text" th:field="*{username}" class="form-control" id="name" placeholder="Username">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error"/>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error"/>
+                            </ul>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Password">
+                            <ul>
+                                <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error"/>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <label for="role" >Select Role :</label>
+
+                            <select name="role" id="Role" th:field="*{role}">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+
+                            </select>
+                        </div>
+                        <div class="d-flex flex-row align-items-center justify-content-between">
+                            <a href="#">Login</a>
+                            <a th:href = "@{/allUsers}"><button class="btn btn-primary" type="submit"> Add User</button></a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
