@@ -22,6 +22,10 @@ public class uiController {
             this.userService = userService;
         }
 
+        @GetMapping("/")
+        public String userIndex() {
+            return "userIndex";
+        }
         @GetMapping("/allUsers")
         public String getAllUsers(Model model) {
             List<UserDto> user = userService.getAllUsers();
@@ -29,24 +33,6 @@ public class uiController {
             return "listUser";
         }
 
-//        @GetMapping("/user/{userId}")
-//        private ResponseEntity<ResponseWrapper> getUserById(@PathVariable("userId") int userId) {
-//
-//            UserDto user = userService.getUserById(userId);
-//            if (user != null) {
-//                ResponseWrapper response = new ResponseWrapper();
-//                response.setStatusCode(HttpStatus.OK.value());
-//                response.setMessage("Users retrieved successfully by ID");
-//                response.setResponse(userService.getUserById(userId));
-//                return ResponseEntity.ok(response);
-//            } else {
-//                ResponseWrapper response = new ResponseWrapper();
-//                response.setStatusCode(HttpStatus.NOT_FOUND.value());
-//                response.setMessage("User not found...Please Check Again");
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-//            }
-//        }
-//
         @GetMapping("/addUser")
         public String createUser(Model model){
             User user = new User();
