@@ -46,10 +46,7 @@ a:hover{
     border: 2px solid #da5767;
 }
 .btn-primary:hover {
-
-
     background-color: #df8c96;
     border-color: #df8c96;
     transition: .3s;
-
 }

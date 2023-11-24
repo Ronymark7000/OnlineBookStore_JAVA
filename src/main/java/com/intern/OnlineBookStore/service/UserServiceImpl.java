@@ -5,6 +5,7 @@ import com.intern.OnlineBookStore.model.User;
 import com.intern.OnlineBookStore.repository.UserRepo;
 import com.intern.OnlineBookStore.util.CustomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
 
 
     public User createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
@@ -54,7 +59,7 @@ public class UserServiceImpl implements UserService {
             //existingUser.setUserId(updatedUser.getUserId());
             existingUser.setUsername(updatedUser.getUsername());
             existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setPassword(updatedUser.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
             existingUser.setRole(updatedUser.getRole());
 
 

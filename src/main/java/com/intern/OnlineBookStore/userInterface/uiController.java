@@ -1,5 +1,6 @@
 package com.intern.OnlineBookStore.userInterface;
 
+import com.intern.OnlineBookStore.config.SecurityConfig;
 import com.intern.OnlineBookStore.dto.UserDto;
 import com.intern.OnlineBookStore.model.User;
 import com.intern.OnlineBookStore.service.UserService;
@@ -13,15 +14,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+
 public class uiController {
+
+
 
         @Autowired
         private UserService userService;
+        private SecurityConfig securityConfig;
 
         public uiController(UserService userService) {
             this.userService = userService;
         }
 
+        /*@GetMapping("/login")
+        public String ....(){
+            return "login";
+        }*/
         @GetMapping("/")
         public String userIndex() {
             return "userIndex";

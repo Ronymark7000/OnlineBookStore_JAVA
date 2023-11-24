@@ -28,7 +28,7 @@ public class User {
     @Email(message = "Invalid email format")
     private String email;
 
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 100)
     @NotEmpty
     @Size(min = 5, message = "Atleast 5 character long")
     private String password;
