@@ -1,6 +1,7 @@
 package com.intern.OnlineBookStore.config;
 
 import com.intern.OnlineBookStore.service.CustomUserDetailsService;
+import com.intern.OnlineBookStore.util.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +10,16 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -26,8 +32,13 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.GET,"/").hasAnyRole("user","admin")
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(c -> c.configurationSource(corsFilter()))
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/**").permitAll()
+                        .anyRequest().authenticated())
+        ;
+                       /* .requestMatchers(HttpMethod.GET,"/").hasAnyRole("user","admin")
 
                         .requestMatchers(HttpMethod.GET,"/allUsers").hasAnyRole("user","admin")
 
@@ -37,20 +48,8 @@ public class SecurityConfig{
                         .requestMatchers(HttpMethod.GET,"/update/**").hasRole("admin")
                         .requestMatchers(HttpMethod.PUT,"/update/**").hasRole("admin")
 
-                        .requestMatchers(HttpMethod.GET,"/deleteUser/**").hasRole("admin")
-                        .anyRequest().authenticated()
-                )
-
-                .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
-                /*.formLogin(form -> form
-                    .loginPage("/login")
-                );*/
-                /*.oauth2ResourceServer((oauth2) -> oauth2
-                        .jwt(Customizer.withDefaults())
-                )*/
-//                .oauth2Login(Customizer.withDefaults());
-
+                        .requestMatchers(HttpMethod.GET,"/deleteUser/**").hasRole("admin")*/
+        http.addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -68,6 +67,19 @@ public class SecurityConfig{
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService);
+    }
+
+    @Bean
+
+    public CorsConfigurationSource corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:5173");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
 

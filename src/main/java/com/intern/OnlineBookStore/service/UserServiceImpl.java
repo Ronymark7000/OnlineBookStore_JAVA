@@ -5,7 +5,6 @@ import com.intern.OnlineBookStore.model.User;
 import com.intern.OnlineBookStore.repository.UserRepo;
 import com.intern.OnlineBookStore.util.CustomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,13 +18,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
-
     //get all students
     public List<UserDto> getAllUsers() {
             List<User> users = new ArrayList<>(userRepo.findAll());
@@ -34,19 +26,23 @@ public class UserServiceImpl implements UserService {
             return userDtos;
     }
 
-    public UserDto getUserById(Integer userId)
+    public User logIn (String username, String password){
+        return userRepo.findUserByUsernameAndPassword(username, password);
+    }
+
+    public UserDto getUserById(int userId)
     {
         Optional<User> optionalUser = userRepo.findById(userId);
 
         User user = optionalUser.get();
-        UserDto userDtos = new UserDto(user.getUserId(),user.getUsername(), user.getEmail(), user.getPassword(),user.getRole());
+        UserDto userDtos = new UserDto(user.getUserId(),user.getUsername(), user.getEmail(),user.getRole());
 
         return userDtos;
     }
 
 
     public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
@@ -59,7 +55,7 @@ public class UserServiceImpl implements UserService {
             //existingUser.setUserId(updatedUser.getUserId());
             existingUser.setUsername(updatedUser.getUsername());
             existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            existingUser.setPassword(updatedUser.getPassword());
             existingUser.setRole(updatedUser.getRole());
 
 
@@ -72,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-    public User deleteUser(Integer userId) {
+    public User deleteUser(int userId) {
         Optional<User> optionalUser = userRepo.findById(userId);
         if (optionalUser.isPresent()) {
             userRepo.deleteById(userId);

@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
     {
         Optional<Book> optionalBook = bookRepo.findById(bookId);
         Book book = optionalBook.get();
-        BookDto bookDto = new BookDto(book.getBookId(),book.getTitle(),book.getGenre(),book.getPrice(),book.isAvailability());
+        BookDto bookDto = new BookDto(book.getBookId(),book.getTitle(),book.getGenre(),book.getAuthor(),book.getPrice(),book.isAvailability());
         return bookDto;
     }
 

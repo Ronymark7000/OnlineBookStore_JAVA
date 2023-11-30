@@ -1,19 +1,32 @@
 package com.intern.OnlineBookStore.util;
 
 public class ResponseWrapper {
+    private boolean success;
     private int statusCode;
     private String message;
     private Object response;
 
-//    public ResponseWrapper(int statusCode, String message, Object response) {
-//        this.statusCode = statusCode;
-//        this.message = message;
-//        this.response = response;
-//    }
 
-//    public int getStatusCode() {
-//        return statusCode;
-//    }
+    public ResponseWrapper() {
+    }
+
+    public ResponseWrapper( boolean success, int statusCode, String message, Object response) {
+        this.success = success;
+        this.statusCode = statusCode;
+        this.message = message;
+        this.response = response;
+    }
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
@@ -35,3 +48,6 @@ public class ResponseWrapper {
         this.response = response;
     }
 }
+
+
+
