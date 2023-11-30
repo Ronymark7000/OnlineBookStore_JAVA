@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>User List</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container my-2" align="center">
+    <h3>User List</h3>
+    <table class="table">
+        <thead class="thead-light">
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Change</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each =user:${user}>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+            <td>
+                <a th:href = "@{/update/{id}(id=${user.userId})}">
+                    <button type="button" >Edit</button>
+                </a>
+            </td>
+            <td>
+                <a th:href = "@{/deleteUser/{id}(id=${user.userId})}">
+                    <button type="button" style="background-color: #da5767">Delete</button>
+                </a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href = "@{/addUser}"><button type="button" class="btn btn-primary">Add User</button></a>
+
+</div>
+</body>
+</html>
