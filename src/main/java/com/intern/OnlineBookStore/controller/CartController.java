@@ -55,12 +55,9 @@ public class CartController {
     public ResponseWrapper updateCart(@PathVariable long cartId, @RequestBody int quantity, HttpServletRequest request) {
         try {
             Integer userId = (Integer) request.getAttribute("userId");
-            ResponseWrapper newCartDto =cartService.updateCart(cartId, quantity, userId);
-            ResponseWrapper response = new ResponseWrapper();
-            response.setStatusCode(200);
-            response.setMessage("Cart updated successfully");
-            response.setResponse(newCartDto);
-            return response;
+
+
+            return cartService.updateCart(cartId, quantity, userId);
 
         }
         catch(CustomException e){

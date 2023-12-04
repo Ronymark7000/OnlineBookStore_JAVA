@@ -5,6 +5,7 @@ import com.intern.OnlineBookStore.util.ResponseWrapper;
 import com.intern.OnlineBookStore.model.Book;
 import com.intern.OnlineBookStore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,21 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    private ResponseEntity<ResponseWrapper> getAllBooks() {
-        List<BookDto> book = bookService.getAllBooks();
+    private ResponseEntity<ResponseWrapper> getAllBooks(@RequestParam(name = "page" ,defaultValue = "1") int page) {
+        Page<BookDto> booksPage = bookService.getAllBooks(page);
+
+        ResponseWrapper response = new ResponseWrapper();
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("Book Collected successfully");
+        response.setSuccess(true);
+        response.setTotalPage(booksPage.getTotalPages());
+        response.setResponse(booksPage.getContent());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/view/books")
+    private ResponseEntity<ResponseWrapper> viewAllBooks() {
+        List<BookDto> book = bookService.viewAllBooks();
         ResponseWrapper response = new ResponseWrapper();
         response.setStatusCode(HttpStatus.OK.value());
         response.setMessage("Book Collected successfully");

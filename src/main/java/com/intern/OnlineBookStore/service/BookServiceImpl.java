@@ -5,9 +5,11 @@ import com.intern.OnlineBookStore.model.Book;
 import com.intern.OnlineBookStore.repository.BookRepo;
 import com.intern.OnlineBookStore.util.CustomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +18,24 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookRepo bookRepo;
-
+    int size = 8;
     //get all books
-    public List<BookDto> getAllBooks() {
-        List<Book> book = new ArrayList<>(bookRepo.findAll());
+         public Page<BookDto> getAllBooks(int page) {
+            Pageable pageable = PageRequest.of(page-1, size);
+            Page<Book> booksPage = bookRepo.findAll(pageable);
 
+             return booksPage.map(book -> new BookDto(
+                     book.getBookId(),
+                     book.getTitle(),
+                     book.getGenre(),
+                     book.getAuthor(),
+                     book.getPrice(),
+                     book.isAvailability()
+             ));
+        }
+
+    public List<BookDto> viewAllBooks() {
+        List<Book> book = bookRepo.findAll();
         List<BookDto> bookDtos = CustomMapper.mapBookDto(book);
         return bookDtos;
     }
