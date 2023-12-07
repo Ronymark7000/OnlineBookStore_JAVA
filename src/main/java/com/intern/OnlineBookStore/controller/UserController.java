@@ -58,7 +58,7 @@ public class UserController {
             response.addCookie(cookie);
             return new ResponseWrapper(true, 200, "Login Success", token);
         }else{
-            return new ResponseWrapper(false, 400, "User not found ", null);
+            return new ResponseWrapper(false, 400, "User not found ", "User Not Logged In");
         }
     }
 

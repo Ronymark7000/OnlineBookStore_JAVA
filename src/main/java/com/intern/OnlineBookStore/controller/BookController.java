@@ -1,6 +1,9 @@
 package com.intern.OnlineBookStore.controller;
 
 import com.intern.OnlineBookStore.dto.BookDto;
+import com.intern.OnlineBookStore.dto.BookResDto;
+import com.intern.OnlineBookStore.dto.ReviewDto;
+import com.intern.OnlineBookStore.service.ReviewService;
 import com.intern.OnlineBookStore.util.ResponseWrapper;
 import com.intern.OnlineBookStore.model.Book;
 import com.intern.OnlineBookStore.service.BookService;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -18,9 +22,14 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    private final ReviewService reviewService;
     //Auto Wired Constructor
-    public BookController(BookService bookService) {
+
+
+    public BookController(BookService bookService, ReviewService reviewService) {
         this.bookService = bookService;
+        this.reviewService = reviewService;
     }
 
     @GetMapping("/books")
@@ -49,15 +58,24 @@ public class BookController {
     @GetMapping("/book/{bookId}")
     private ResponseEntity<ResponseWrapper> getBookById(@PathVariable("bookId") int bookId) {
 
-        BookDto book = bookService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId);
         if (book != null){
             ResponseWrapper response = new ResponseWrapper();
+            Map<String, Object> rating = reviewService.getSingleBookRating(book.getBookId());
+            List<ReviewDto> reviews = reviewService.getAllReviewsByBook(book.getBookId());
+            float overallRating = Float.parseFloat(rating.get("overall_rating").toString());
+            long numRatings = Long.parseLong(rating.get("num_reviews").toString());
+            BookResDto bookResDto = new BookResDto(book, overallRating, numRatings);
+            bookResDto.setReviews(reviews);
             response.setStatusCode(HttpStatus.OK.value());
             response.setMessage("Book Collected successfully by ID");
-            response.setResponse(bookService.getBookById(bookId));
+            response.setResponse(bookResDto);
             return ResponseEntity.ok(response);
         }else {
+
+
             ResponseWrapper response = new ResponseWrapper();
+
             response.setStatusCode(HttpStatus.NOT_FOUND.value());
             response.setMessage("Book not found...Please Check Again");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

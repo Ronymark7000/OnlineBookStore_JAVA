@@ -10,7 +10,7 @@ public interface BookService {
 
     Page<BookDto> getAllBooks(int page);
     List<BookDto> viewAllBooks();
-    BookDto getBookById(Integer bookId);
+    Book getBookById(Integer bookId);
     Book addBook(Book book);
     Book updateBook(int id, Book updatedBook);
     Book deleteBook(Integer bookId);

@@ -40,12 +40,10 @@ public class BookServiceImpl implements BookService {
         return bookDtos;
     }
 
-    public BookDto getBookById(Integer bookId)
+    public Book getBookById(Integer bookId)
     {
         Optional<Book> optionalBook = bookRepo.findById(bookId);
-        Book book = optionalBook.get();
-        BookDto bookDto = new BookDto(book.getBookId(),book.getTitle(),book.getGenre(),book.getAuthor(),book.getPrice(),book.isAvailability());
-        return bookDto;
+        return optionalBook.get();
     }
 
 
