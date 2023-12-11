@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookService {
 
-    Page<BookDto> getAllBooks(int page);
+    Page<BookDto> getAllBooks(int page, String title, String author, String genre);
     List<BookDto> viewAllBooks();
     Book getBookById(Integer bookId);
     Book addBook(Book book);

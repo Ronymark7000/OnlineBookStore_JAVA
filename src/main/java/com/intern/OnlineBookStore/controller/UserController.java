@@ -56,7 +56,7 @@ public class UserController {
             cookie.setMaxAge(50400);
             cookie.setPath("/api");
             response.addCookie(cookie);
-            return new ResponseWrapper(true, 200, "Login Success", token);
+            return new ResponseWrapper(true, 200, "Login Success", user);
         }else{
             return new ResponseWrapper(false, 400, "User not found ", "User Not Logged In");
         }

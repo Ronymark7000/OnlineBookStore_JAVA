@@ -33,8 +33,13 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    private ResponseEntity<ResponseWrapper> getAllBooks(@RequestParam(name = "page" ,defaultValue = "1") int page) {
-        Page<BookDto> booksPage = bookService.getAllBooks(page);
+    private ResponseEntity<ResponseWrapper> getAllBooks(@RequestParam(name = "page" ,defaultValue = "1") int page,
+                                                        @RequestParam(name = "query", defaultValue = "", required = false) String title,
+                                                        @RequestParam(name = "query", defaultValue = "", required = false) String author,
+                                                        @RequestParam(name = "query", defaultValue = "", required = false) String genre
+
+                                                        ) {
+        Page<BookDto> booksPage = bookService.getAllBooks(page,  title,  author,  genre);
 
         ResponseWrapper response = new ResponseWrapper();
         response.setStatusCode(HttpStatus.OK.value());
