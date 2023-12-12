@@ -4,7 +4,7 @@ import com.intern.OnlineBookStore.dto.BookDto;
 import com.intern.OnlineBookStore.model.Book;
 import com.intern.OnlineBookStore.repository.BookRepo;
 import com.intern.OnlineBookStore.util.CustomMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,16 +12,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
-    @Autowired
-    private BookRepo bookRepo;
+    private final BookRepo bookRepo;
     int size = 8;
 
-    //get all books
     public Page<BookDto> getAllBooks(int page, String title, String author, String genre) {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<Book> booksPage = bookRepo.findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrGenreContainingIgnoreCase(title, author, genre, pageable);
@@ -35,21 +33,6 @@ public class BookServiceImpl implements BookService {
                 book.isAvailability()
         ));
     }
-
-//    public List<BookDto> getAllBooks(String title, String author, String genre, int pageNo) {
-//        PageRequest pageable = PageRequest.of(pageNo - 1, size);
-//        Page<Book> bookPage = bookRepo.findAllByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCaseOrGenreContainingIgnoreCase(title, author, genre, pageable);
-//        List<BookDto> bookDtos = bookPage.getContent().stream().map(book -> new BookDto(
-//                book.getBookId(),
-//                book.getTitle(),
-//                book.getGenre(),
-//                book.getAuthor(),
-//                book.getPrice(),
-//                book.isAvailability()
-//        )).toList();;
-//
-//        return bookDtos;
-//    }
 
     public List<BookDto> viewAllBooks() {
         List<Book> book = bookRepo.findAll();

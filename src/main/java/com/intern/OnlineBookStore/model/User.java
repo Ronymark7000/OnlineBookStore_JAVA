@@ -19,13 +19,13 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @Column(nullable = false, length = 30, unique = true)
+    @Column(nullable = false, length = 30)
     @NotEmpty
     @Size(min =3, message = "Must have Atleast 3 Character")
     @Pattern(regexp = "^[a-zA-Z0-9_-]{3,20}$", message = "Username should not contain space")
     private String username;
 
-    @Column(nullable = false, length = 50, unique = true)
+    @Column(nullable = false, length = 50)
     @Email(message = "Invalid email format")
     private String email;
 

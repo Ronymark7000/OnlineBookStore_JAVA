@@ -32,13 +32,7 @@ public class UserController {
     @PostMapping("/auth/register")
     private ResponseWrapper registerUser(@Valid @RequestBody User users) {
         users.setRole("user");
-        userService.createUser(users);
-        ResponseWrapper response = new ResponseWrapper();
-        response.setStatusCode(HttpStatus.CREATED.value());
-        response.setMessage("User created successfully");
-        response.setResponse(users);
-        response.setSuccess(true);
-        return response;
+        return  userService.createUser(users);
     }
 
 

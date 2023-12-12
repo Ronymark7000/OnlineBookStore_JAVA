@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, Integer>{
     Optional<User> findUserByUsername(String username);
 
+    Optional<User> findByEmail(String email);
+
     @Query(value = "SELECT * FROM onlineuser WHERE username = :username AND password = :password LIMIT 1", nativeQuery = true)
     User findUserByUsernameAndPassword(String username, String password);
 }

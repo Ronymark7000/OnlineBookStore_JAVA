@@ -2,20 +2,16 @@ package com.intern.OnlineBookStore.controller;
 
 import com.intern.OnlineBookStore.service.OrderService;
 import com.intern.OnlineBookStore.util.ResponseWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/admin/orders")
+@RequiredArgsConstructor
 public class AdminOrderController {
 
     private final OrderService orderService;
-
-    @Autowired
-    public AdminOrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @GetMapping()
     public ResponseEntity<ResponseWrapper> getAllOrders(@RequestParam(name = "sort", defaultValue = "date") String sort,
@@ -26,7 +22,7 @@ public class AdminOrderController {
 
     @PutMapping("/{orderId}")
     public ResponseEntity<ResponseWrapper> updateOrderStatus(@PathVariable long orderId, @RequestBody String status) {
-        String statusStr = status.replaceAll("\"", "");
+        String statusStr = status.replace("\"", "");
         return orderService.updateOrderStatus(orderId, statusStr);
     }
 }

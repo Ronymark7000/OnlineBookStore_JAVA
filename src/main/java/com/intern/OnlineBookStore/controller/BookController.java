@@ -21,7 +21,7 @@ import java.util.Map;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
     private final ReviewService reviewService;
     //Auto Wired Constructor
@@ -33,7 +33,7 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    private ResponseEntity<ResponseWrapper> getAllBooks(@RequestParam(name = "page" ,defaultValue = "1") int page,
+    public ResponseEntity<ResponseWrapper> getAllBooks(@RequestParam(name = "page" ,defaultValue = "1") int page,
                                                         @RequestParam(name = "query", defaultValue = "", required = false) String title,
                                                         @RequestParam(name = "query", defaultValue = "", required = false) String author,
                                                         @RequestParam(name = "query", defaultValue = "", required = false) String genre
@@ -51,7 +51,7 @@ public class BookController {
     }
 
     @GetMapping("/view/books")
-    private ResponseEntity<ResponseWrapper> viewAllBooks() {
+    public ResponseEntity<ResponseWrapper> viewAllBooks() {
         List<BookDto> book = bookService.viewAllBooks();
         ResponseWrapper response = new ResponseWrapper();
         response.setStatusCode(HttpStatus.OK.value());
@@ -61,7 +61,7 @@ public class BookController {
     }
 
     @GetMapping("/book/{bookId}")
-    private ResponseEntity<ResponseWrapper> getBookById(@PathVariable("bookId") int bookId) {
+    public ResponseEntity<ResponseWrapper> getBookById(@PathVariable("bookId") int bookId) {
 
         Book book = bookService.getBookById(bookId);
         if (book != null){
@@ -88,8 +88,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    private ResponseEntity<ResponseWrapper> addBook(@RequestBody Book book){
-        //bookService.addBook(book);
+    public ResponseEntity<ResponseWrapper> addBook(@RequestBody Book book){
         ResponseWrapper response = new ResponseWrapper();
         response.setStatusCode(HttpStatus.CREATED.value());
         response.setMessage("Successfully Added where Book Id: " + book.getBookId() );
@@ -98,7 +97,7 @@ public class BookController {
     }
 
     @PutMapping("/book/{bookId}")
-    private ResponseEntity<ResponseWrapper> updateBook(@PathVariable ("bookId") int bookId, @RequestBody Book book){
+    public ResponseEntity<ResponseWrapper> updateBook(@PathVariable ("bookId") int bookId, @RequestBody Book book){
         Book updatedBook = bookService.updateBook(bookId,book);
         if (updatedBook != null){
             ResponseWrapper response = new ResponseWrapper();
@@ -115,7 +114,7 @@ public class BookController {
     }
 
     @DeleteMapping("/book/{bookId}")
-    private ResponseEntity<ResponseWrapper> deleteBook(@PathVariable("bookId")int bookId){
+    public ResponseEntity<ResponseWrapper> deleteBook(@PathVariable("bookId")int bookId){
         bookService.deleteBook(bookId);
         ResponseWrapper response = new ResponseWrapper();
         response.setStatusCode(HttpStatus.OK.value());
