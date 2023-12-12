@@ -29,6 +29,10 @@ public class OrderService {
         this.cartRepo = cartRepo;
     }
 
+    public List<Order> getAllOrdersByUserId(Integer id) {
+        return orderRepo.getOrdersByUser(id);
+    }
+
     public List<Order> getOrdersByUser(long userId) {
         return orderRepo.getOrdersByUser(userId);
     }

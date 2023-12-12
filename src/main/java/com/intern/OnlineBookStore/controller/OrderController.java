@@ -24,6 +24,18 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @GetMapping("/user-orders")
+    public ResponseWrapper getAllOrdersByUserId(HttpServletRequest request){
+        int userId = (int) request.getAttribute("userId");
+        List<Order> orderList = orderService.getAllOrdersByUserId(userId);
+        ResponseWrapper response = new ResponseWrapper();
+        response.setStatusCode(200);
+        response.setMessage("Order retrieved successfully");
+        response.setSuccess(true);
+        response.setResponse(orderList);
+        return response;
+    }
+
     @PostMapping()
     public ResponseEntity<ResponseWrapper> placeOrder(HttpServletRequest request) {
 //        User decodedUser = (User) request.getAttribute("user");

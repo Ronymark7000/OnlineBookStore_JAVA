@@ -36,13 +36,13 @@ public class BookServiceImpl implements BookService {
 
     public List<BookDto> viewAllBooks() {
         List<Book> book = bookRepo.findAll();
-        List<BookDto> bookDtos = CustomMapper.mapBookDto(book);
-        return bookDtos;
+        return CustomMapper.mapBookDto(book);
     }
 
     public Book getBookById(Integer bookId) {
-        Optional<Book> optionalBook = bookRepo.findById(bookId);
-        return optionalBook.get();
+//        Optional<Book> optionalBook = bookRepo.findById(bookId);
+//        return optionalBook.get();
+        return bookRepo.findById(bookId).orElse(null);
     }
 
 
@@ -63,8 +63,8 @@ public class BookServiceImpl implements BookService {
             existingBook.setAvailability(updatedBook.isAvailability());
 
             // Save the updated user back to the database
-            Book savedBook = bookRepo.save(existingBook);
-            return savedBook;
+//            Book savedBook = bookRepo.save(existingBook);
+            return bookRepo.save(existingBook);
         } else {
             // Handle the scenario when the user with the given ID is not found
             return null;
