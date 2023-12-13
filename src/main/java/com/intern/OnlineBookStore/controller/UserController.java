@@ -30,9 +30,9 @@ public class UserController {
 
 
     @PostMapping("/auth/register")
-    private ResponseWrapper registerUser(@Valid @RequestBody User users) {
-        users.setRole("user");
-        return  userService.createUser(users);
+    private ResponseWrapper registerUser(@Valid @RequestBody User user) {
+        user.setRole("user");
+        return  userService.createUser(user);
     }
 
 

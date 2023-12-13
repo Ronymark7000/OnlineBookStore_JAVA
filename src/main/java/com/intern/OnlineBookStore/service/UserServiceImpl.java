@@ -46,9 +46,12 @@ public class UserServiceImpl implements UserService {
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
         Optional<User> exist = userRepo.findByEmail( user.getEmail());
         if(exist.isPresent()){
-            return new ResponseWrapper(false, 400, "User exist ", null);
+            return new ResponseWrapper(false, 400, "User already exist ", null);
+        }else{
+            User newUser = userRepo.save(user);
+            return new ResponseWrapper(true, 200, "success", newUser);
         }
-        return new ResponseWrapper(true, 200, "success", user);
+
 
     }
 
